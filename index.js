@@ -12,7 +12,8 @@ const textContentArr = []
 const TEXT_CONTENT = "text-content"
 
 window.addEventListener("DOMContentLoaded", () => {
-  const nameFromStorage = localStorage.getItem(TEXT_CONTENT)
+  const nameFromStorage = JSON.parse(localStorage.getItem(TEXT_CONTENT))
+  console.log(nameFromStorage)
 })
 
 form.addEventListener("submit", (event) => {
@@ -27,8 +28,9 @@ form.addEventListener("submit", (event) => {
   form.reset()
   const storageArray = localStorage.getItem(TEXT_CONTENT)
   //tramite il reset una volta salvato il nome questo sparisce
-  console.log("salvato")
+  console.log(storageArray)
 })
+
 // qui andiamo ad azionare l'evento di caricamneto per stampare sull'input il testo precedentemente salvato
 loadBtn.addEventListener("click", () => {
   const savedText = JSON.parse(localStorage.getItem(TEXT_CONTENT))
@@ -42,10 +44,32 @@ loadBtn.addEventListener("click", () => {
     alert("non ce nulla salvato, prova a salvare prima qualcosa ")
   }
 })
+
 //con questo bottone eliminiamo quello che e presente nell local storage
 deleteBtn.addEventListener("click", () => {
-  localStorage.removeItem(TEXT_CONTENT)
-
-  form.reset()
-  label.innerText = " "
+  textContentArr.pop()
+  localStorage.setItem(TEXT_CONTENT, JSON.stringify(textContentArr))
+  const localStorageName = localStorage.getItem(TEXT_CONTENT)
+  console.log(JSON.parse(localStorageName))
+  const names = JSON.parse(localStorageName)
+  text = ""
+  if (names.length > 0) {
+    names.forEach((name) => {
+      text += " " + name
+      label.innerText = text
+    })
+  } else {
+    label.innerText = " "
+  }
 })
+
+//   const acceptAlert = confirm("sei sicuro di voler eliminare?")
+
+//   if (acceptAlert) {
+//     localStorage.removeItem(TEXT_CONTENT)
+//     form.reset()
+//     textContentArr.pop()
+//     label.innerText = " "
+//   } else {
+//     alert("non ce nulla da eliminare")
+//   }
